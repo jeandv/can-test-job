@@ -31,10 +31,8 @@ router.post('/login', async (req, res) => {
 
   try {
 
-    // Check if the user exists
     const user = await User.findOne({ username: req.body.username });
 
-    // If the user does not exist, return an appropriate response
     if (!user) {
       res.status(401).json('Wrong username!');
 
