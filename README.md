@@ -1,2 +1,2 @@
-# can-test-job
+# events-test-mern
 Event Registration App
