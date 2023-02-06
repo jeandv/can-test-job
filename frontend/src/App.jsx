@@ -1,4 +1,5 @@
 import Layout from './components/layout/Layout';
+import EventDetails from './pages/EventDetails';
 import Home from './pages/Home';
 
 const App = () => {
@@ -6,6 +7,7 @@ const App = () => {
   return (
     <Layout>
       <Home />
+      <EventDetails />
     </Layout>
   )
 }
