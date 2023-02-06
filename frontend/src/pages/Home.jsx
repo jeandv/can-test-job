@@ -1,7 +1,10 @@
+import Categories from '../components/events/Categories';
 
 const Home = () => {
   return (
-    <div>This is the Home</div>
+    <section>
+      <Categories />
+    </section>
   )
 }
 

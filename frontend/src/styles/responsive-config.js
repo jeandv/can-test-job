@@ -5,5 +5,13 @@ export const mobile = (props) => {
     @media only screen and (max-width: 380px) {
       ${props}
     }
+
+    @media only screen and (max-width: 280px) {
+      ${props}
+    }
+
+    @media only screen and (max-width: 414px) {
+      ${props}
+    }
   `;
 };

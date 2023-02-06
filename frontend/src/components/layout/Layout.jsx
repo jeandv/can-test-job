@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
     <>
       <Helmet>
         <meta charSet='utf-8' />
-        <title>TEST-MERN</title>
+        <title>EVENTS-TEST-MERN</title>
         <link rel='canonical' href='https://events-test-mern' />
       </Helmet>
 
