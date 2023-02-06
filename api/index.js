@@ -6,7 +6,7 @@ const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
 const eventsRoute = require('./routes/event');
 const cartRoute = require('./routes/cart');
-
+const orderRoute = require('./routes/order');
 
 const port = process.env.PORT || 5000;
 
@@ -29,5 +29,7 @@ app.use('/api/users', userRoute);
 app.use('/api/events', eventsRoute);
 
 app.use('/api/carts', cartRoute);
+
+app.use('/api/orders', orderRoute);
 
 app.listen(port, () => console.log('backend server is running...', port));
