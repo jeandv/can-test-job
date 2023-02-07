@@ -1,4 +1,5 @@
-import { SearchOutlined, ShoppingCartOutlined, } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
+import { InvertColors, SearchOutlined, ShoppingCartOutlined, } from '@material-ui/icons';
 import styled from 'styled-components';
 
 const Info = styled.div`
@@ -70,7 +71,9 @@ const Event = ({ item }) => {
           <ShoppingCartOutlined />
         </Icon>
         <Icon>
-          <SearchOutlined />
+          <Link to={`/event/${item._id}`} style={{ color: '#5796fa' }}>
+            <SearchOutlined />
+          </Link>
         </Icon>
       </Info>
     </Container>

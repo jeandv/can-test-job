@@ -1,5 +1,8 @@
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Add, Remove } from '@material-ui/icons';
 import styled from 'styled-components';
+import { publicRequest } from '../services/requestMethods';
 import { mobile } from '../styles/responsive-config';
 
 const Container = styled.div``;
@@ -17,8 +20,8 @@ const ImgContainer = styled.div`
 `;
 
 const Image = styled.img`
-  width: 70%;
-  height: 70%;
+  width: 80%;
+  height: 80%;
   object-fit: contain;
   ${mobile({ height: '40vh' })}
 `;
@@ -81,44 +84,71 @@ const Button = styled.button`
 `;
 
 const EventDetails = () => {
+
+  const location = useLocation();
+
+  const id = location.pathname.split('/')[2];
+
+  const [loading, setLoading] = useState(true);
+  const [event, setEvent] = useState({});
+  const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+
+    const getEvent = async () => {
+
+      try {
+
+        const res = await publicRequest.get(`/events/find/${id}`);
+
+        setLoading(false);
+        setEvent(res.data);
+
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
+
+    getEvent();
+
+  }, [id]);
+
   return (
     <Container>
-      <Wrapper>
+      {
+        loading
+          ? <h1>Loading...</h1>
+          : <Wrapper>
 
-        <ImgContainer>
-          <Image src='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/battle-of-the-bands-banner-design-template-68716fe3da89747750fcab159e1a2e02_screen.jpg?ts=1628671666' />
-        </ImgContainer>
+            <ImgContainer>
+              <Image src={event.img} />
+            </ImgContainer>
 
-        <InfoContainer>
+            <InfoContainer>
 
-          <Title>Battle of Bands</Title>
+              <Title>{event.title}</Title>
 
-          <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-            iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-            tristique tortor pretium ut. Curabitur elit justo, consequat id
-            condimentum ac, volutpat ornare.
-          </Desc>
+              <Desc>{event.desc}</Desc>
 
+              <AddContainer>
 
-          <AddContainer>
+                <Price>$ {event.price}</Price>
 
-            <Price>$ 20</Price>
+                <AmountContainer>
+                  <Remove onClick={() => quantity > 1 ? setQuantity(quantity - 1) : console.log('quantity: 0')} style={{ cursor: 'pointer' }} />
+                  <Amount>{quantity}</Amount>
+                  <Add onClick={() => setQuantity(quantity + 1)} style={{ cursor: 'pointer' }} />
+                </AmountContainer>
 
-            <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
-            </AmountContainer>
+                <Button>ADD TO CART</Button>
 
-            <Button>ADD TO CART</Button>
+              </AddContainer>
 
-          </AddContainer>
+            </InfoContainer>
 
-        </InfoContainer>
-
-      </Wrapper>
+          </Wrapper>
+      }
     </Container>
   );
 };

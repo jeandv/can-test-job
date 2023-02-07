@@ -64,8 +64,8 @@ router.get('/find/:id', async (req, res) => {
 
   try {
 
-    const Event = await Event.findById(req.params.id);
-    res.status(200).json(Event);
+    const EventInfo = await Event.findById(req.params.id);
+    res.status(200).json(EventInfo);
 
   } catch (err) {
     res.status(500).json(err);

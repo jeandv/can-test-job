@@ -34,8 +34,8 @@ const EventsList = () => {
 
         const res = await axios.get(category ? `http://localhost:5000/api/events?category=${category}` : 'http://localhost:5000/api/events');
 
-        setEvents(res.data);
         setLoading(false);
+        setEvents(res.data);
 
       } catch (error) {
         console.log(error);
