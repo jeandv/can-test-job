@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Add, Remove } from '@material-ui/icons';
 import styled from 'styled-components';
 import { publicRequest } from '../services/requestMethods';
+import { addEventToCart } from '../redux/cartRedux';
 import { mobile } from '../styles/responsive-config';
 
 const Container = styled.div``;
@@ -92,6 +94,7 @@ const EventDetails = () => {
   const [loading, setLoading] = useState(true);
   const [event, setEvent] = useState({});
   const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
 
   useEffect(() => {
 
@@ -113,6 +116,12 @@ const EventDetails = () => {
     getEvent();
 
   }, [id]);
+
+  const handleClick = () => {
+
+    dispatch(addEventToCart({ ...event, quantity }));
+
+  }
 
   return (
     <Container>
@@ -141,7 +150,7 @@ const EventDetails = () => {
                   <Add onClick={() => setQuantity(quantity + 1)} style={{ cursor: 'pointer' }} />
                 </AmountContainer>
 
-                <Button>ADD TO CART</Button>
+                <Button onClick={handleClick}>ADD TO CART</Button>
 
               </AddContainer>
 

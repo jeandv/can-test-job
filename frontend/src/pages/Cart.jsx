@@ -1,4 +1,5 @@
 import { Add, Remove } from '@material-ui/icons';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { mobile } from '../styles/responsive-config';
 
@@ -116,7 +117,7 @@ const Summary = styled.div`
   border: 0.5px solid lightgray;
   border-radius: 10px;
   padding: 20px;
-  height: 50vh;
+  height: 100%;
 `;
 
 const SummaryTitle = styled.h1`
@@ -150,88 +151,77 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+
+  const cart = useSelector(state => state.cart);
+
   return (
     <Container>
       <Wrapper>
+
         <Title>YOUR BAG</Title>
-        <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
-          <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
-          </TopTexts>
-          <TopButton type='filled'>CHECKOUT NOW</TopButton>
-        </Top>
+
         <Bottom>
+
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/battle-of-the-bands-banner-design-template-68716fe3da89747750fcab159e1a2e02_screen.jpg?ts=1628671666' />
-                <Details>
-                  <ProductName>
-                    <div>
-                      <b>Event:</b> Battle of Bands
-                    </div>
-                    <div>
-                      <b>ID:</b> 93813718293
-                    </div>
-                  </ProductName>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 30</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {
+              cart.products.map((event) => (
+                <Product key={event._id}>
+
+                  <ProductDetail>
+
+                    <Image src={event.img} />
+
+                    <Details>
+
+                      <ProductName>
+                        <div>
+                          <b>Product:</b> {event.title}
+                        </div>
+                        <div>
+                          <b>ID:</b> {event._id}
+                        </div>
+                      </ProductName>
+
+                    </Details>
+
+                  </ProductDetail>
+
+                  <PriceDetail>
+
+                    <ProductAmountContainer>
+                      <Add />
+                      <ProductAmount>{event.quantity}</ProductAmount>
+                      <Remove />
+                    </ProductAmountContainer>
+
+                    <ProductPrice>
+                      $ {event.price * event.quantity}
+                    </ProductPrice>
+
+                  </PriceDetail>
+
+                </Product>
+              ))
+            }
             <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/soccer-flyer%2Csoccer-game-flyer%2C-soccer-match%2C-design-template-a92532dce0cf5d49ed7d737ffb3212c2_screen.jpg?ts=1607328338' />
-                <Details>
-                  <ProductName>
-                    <div>
-                      <b>Event:</b> Football Game
-                    </div>
-                    <div>
-                      <b>ID:</b> 93813718293
-                    </div>
-                  </ProductName>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 20</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
+
           <Summary>
+
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-            <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-            </SummaryItem>
+
             <SummaryItem type='total'>
+
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+
             </SummaryItem>
+
             <Button>CHECKOUT NOW</Button>
+
           </Summary>
+
         </Bottom>
       </Wrapper>
     </Container>
