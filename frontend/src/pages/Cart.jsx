@@ -1,7 +1,13 @@
-import { Add, Remove } from '@material-ui/icons';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import StripeCheckout from 'react-stripe-checkout';
+import { Add, Remove } from '@material-ui/icons';
 import styled from 'styled-components';
+import { userRequest } from '../services/requestMethods';
 import { mobile } from '../styles/responsive-config';
+
+const KEY = import.meta.env.REACT_APP_STRIPE || 'pk_test_51MOxkgChXuFsQ8L21lCfhLbZeIbh979YNjPw2t3XDfbYfihHldmdajGKXMywkeHBe37rDj1NHOIz5Dz7oRqyZPvc005CD0dugl';
 
 const Container = styled.div``;
 
@@ -154,6 +160,44 @@ const Cart = () => {
 
   const cart = useSelector(state => state.cart);
 
+  const [stripeToken, setStripeToken] = useState(null);
+
+  const navigate = useNavigate();
+
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+
+  useEffect(() => {
+
+    const makeRequest = async () => {
+
+      try {
+
+        const res = await userRequest.post('/checkout/payment', {
+          tokenId: stripeToken.id,
+          amount: cart.total,
+        });
+
+        navigate('/success', {
+          state: {
+            stripeData: res.data,
+            products: cart,
+          }
+        });
+
+      } catch (error) {
+        console.log(error);
+      }
+
+    };
+
+    stripeToken && makeRequest();
+
+  }, [stripeToken, cart.total, history]);
+
+  console.log(stripeToken);
+
   return (
     <Container>
       <Wrapper>
@@ -218,7 +262,18 @@ const Cart = () => {
 
             </SummaryItem>
 
-            <Button>CHECKOUT NOW</Button>
+            <StripeCheckout
+              name='Jeandv'
+              image='https://avatars.githubusercontent.com/u/90219458?v=4'
+              billingAddress
+              shippingAddress
+              description={`Your total is $${cart.total}`}
+              amount={cart.total}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <Button>CHECKOUT NOW</Button>
+            </StripeCheckout>
 
           </Summary>
 
