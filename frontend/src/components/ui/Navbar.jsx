@@ -1,6 +1,7 @@
 import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@material-ui/icons';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { mobile } from '../../styles/responsive-config';
 
@@ -13,6 +14,7 @@ const Wrapper = styled.div`
   padding: 10px 20px;
   display: flex;
   align-items: center;
+  gap: 5px;
   justify-content: space-between;
   ${mobile({ padding: '10px 0px' })}
 `;
@@ -78,15 +80,23 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>EVENTS.</Logo>
+          <Logo>
+            <Link to='/' style={{ color: '#000' }}>EVENTS</Link>
+          </Logo>
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
           <MenuItem>
-            <Badge badgeContent={4} color='primary'>
-              <ShoppingCartOutlined />
-            </Badge>
+            <Link to='register' style={{ color: '#000' }}>REGISTER</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to='login' style={{ color: '#000' }}>SIGN IN</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to='cart' style={{ color: '#000' }}>
+              <Badge badgeContent={4} color='primary'>
+                <ShoppingCartOutlined />
+              </Badge>
+            </Link>
           </MenuItem>
         </Right>
       </Wrapper>
